@@ -1,1 +1,4 @@
 .venv
+
+olc/dist/*
+olc/poetry.lock
