@@ -1,4 +1,4 @@
-
+from runner import OlcRunner
 
 if __name__ == '__main__':
-    print("in main")
+    OlcRunner().run()

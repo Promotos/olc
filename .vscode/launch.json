@@ -11,7 +11,10 @@
             "cwd": "${workspaceFolder}\\olc\\",
             "program": "olc/olc.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "args": [
+                "What is the meaning of life?"
+            ]
         }
     ]
 }

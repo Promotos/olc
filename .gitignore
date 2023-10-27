@@ -1,4 +1,5 @@
 .venv
+olc/olc/__pycache__/*
 
 olc/dist/*
 olc/poetry.lock
