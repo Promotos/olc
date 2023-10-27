@@ -16,18 +16,29 @@ class OlcRunner():
         if not self._is_ollama_running():
             raise RuntimeError(f"Ollama is not running at expected address {self.host}")
 
-        print(self._generate(prompt))
+        self._generate_async(prompt)
+
+    def _generate_async(self, prompt: str) -> str:
+        request_body = self._get_generate_request_body(prompt, stream=True)
+        try:
+            result = requests.post(f"{self.host}/{self.endpoint_generate}", data=json.dumps(request_body), stream=True)
+            if result.status_code != 200:
+                raise RuntimeError(f"Unexpected status code: {result.status_code} - {result.text}")
+
+            for line in result.iter_lines():
+                line_str = line.decode('UTF-8')
+                line_json = json.loads(line_str)
+                response = line_json['response']
+                print(response, end="")
+
+        except Exception as ex:
+            raise RuntimeError(ex)
 
     def _generate(self, prompt: str) -> str:
-
-        request_body = {
-            "model": self.model,
-            "prompt": prompt
-        }
+        request_body = self._get_generate_request_body(prompt, stream=False)
 
         try:
-            request_json = json.dumps(request_body)
-            result = requests.post(f"{self.host}/{self.endpoint_generate}", data=request_json)
+            result = requests.post(f"{self.host}/{self.endpoint_generate}", data=json.dumps(request_body))
             if result.status_code != 200:
                 raise RuntimeError(f"Unexpected status code: {result.status_code} - {result.text}")
 
@@ -41,6 +52,13 @@ class OlcRunner():
             return response
         except Exception as ex:
             raise RuntimeError(ex)
+
+    def _get_generate_request_body(self, prompt: str, stream: bool = False) -> str:
+        return {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": stream
+        }
 
     def _getPrompt(self) -> str:
         if (len(sys.argv) == 1):
