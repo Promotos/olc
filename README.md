@@ -29,3 +29,18 @@ wsl:~$ ollama serve
 2023/10/25 19:38:15 images.go:829: total unused blobs removed: 0
 2023/10/25 19:38:15 routes.go:662: Listening on 127.0.0.1:8888 (version 0.1.5)
 ```
+
+## Pull a model
+Execute the following command to pull the llama model
+```
+ollama pull llama2
+```
+Make sure you are using the same OLLAMA_HOST where your server is started.
+
+On the server you should see output like:
+```
+[GIN] 2023/10/25 - 19:45:38 | 200 |        35.1µs |       127.0.0.1 | HEAD     "/"
+[GIN] 2023/10/25 - 19:45:38 | 200 |     385.599µs |       127.0.0.1 | GET      "/api/tags"
+2023/10/25 19:45:41 download.go:126: downloading 22f7f8ef5f4c in 64 59 MB part(s)
+...
+```
