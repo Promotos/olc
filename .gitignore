@@ -1,3 +1,4 @@
 .venv
 ollama-cli/dist/*
 ollama-cli/poetry.lock
+ollama-cli/ollama_cli/__pycache__/*
