@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "olc"
+name = "ollama-cli"
 version = "0.1.0"
 description = ""
 authors = ["Promotos <promotos@gmx.de>"]
@@ -7,11 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-requests = "^2.31.0"
 
-
-[tool.poetry.group.test.dependencies]
-pytest = "^7.4.3"
 
 [build-system]
 requires = ["poetry-core"]

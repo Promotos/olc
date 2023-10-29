@@ -1,5 +1,3 @@
 .venv
-olc/olc/__pycache__/*
-
-olc/dist/*
-olc/poetry.lock
+ollama-cli/dist/*
+ollama-cli/poetry.lock

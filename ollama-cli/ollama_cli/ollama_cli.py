@@ -73,3 +73,11 @@ class OlcRunner():
         except Exception as ex:
             print(ex)
             return False
+
+
+def run():
+    OlcRunner().run()
+
+
+if __name__ == '__main__':
+    OlcRunner().run()
