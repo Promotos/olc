@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "ollamac"
-version = "0.1.0"
+version = "0.1.2"
 description = ""
 authors = ["Promotos <promotos@gmx.de>"]
 readme = "README.md"
 license = "Apache-2.0"
 keywords = ["ollama", "command line interface"]
+requires-python = ">=3.10"
 
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -15,6 +16,10 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/Promotos/olc"
+"Bug Tracker" = "https://github.com/Promotos/olc/issues"
 
 [tool.poetry.dependencies]
 python = "^3.10"
