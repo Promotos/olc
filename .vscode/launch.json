@@ -8,8 +8,8 @@
             "name": "Python: OLC",
             "type": "python",
             "request": "launch",
-            "cwd": "${workspaceFolder}\\olc\\",
-            "program": "olc/olc.py",
+            "cwd": "${workspaceFolder}\\ollamac\\",
+            "program": "ollamac/ollamac.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
