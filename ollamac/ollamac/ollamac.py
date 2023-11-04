@@ -1,27 +1,48 @@
 import sys
 import json
 import requests
+import argparse
 
 
 class OlcRunner():
 
-    host = "http://localhost:8888"  # TODO: get from env
-    model = "llama2"  # TODO: get from env
+    host = "localhost"
+    port = 8888
+    model = "llama2"
 
     endpoint_generate = "api/generate"
 
     def run(self):
-        prompt = self._getPrompt()
-
+        
+        parser = argparse.ArgumentParser(description='ollama command line utility.')
+        parser.add_argument('prompt', type=str, help='Required prompt to be send to the ollama model.')
+        parser.add_argument('--model', type=str, help=f'The name of the ollama model to use. Default is "{self.model}".', default=self.model)
+        parser.add_argument('--host', type=str, help=f'The hostname where ollama serve is running. Default is "{self.host}".', default=self.host)
+        parser.add_argument('--port', type=int, help=f'The port where ollama serve is running. Default is "{self.port}".', default=self.port)
+        # TODO: add llm arguments like temp
+        parser.add_argument('--sync', action='store_true', help='This switch executes the query synchronous.')
+        
+        args = parser.parse_args()
+        
+        prompt = args.prompt
+        if (len(args.prompt) == 0):
+            parser.error("Please provide a prompt for the model.")
+        
+        self.host = args.host
+        self.port = args.port
+        
         if not self._is_ollama_running():
-            raise RuntimeError(f"Ollama is not running at expected address {self.host}")
+            parser.error(f'Ollama is not running at expected address "{self._get_endpoint()}"')
 
-        self._generate_async(prompt)
+        if (args.sync):
+            print(self._generate(prompt))
+        else:
+            self._generate_async(prompt)
 
     def _generate_async(self, prompt: str) -> str:
         request_body = self._get_generate_request_body(prompt, stream=True)
         try:
-            result = requests.post(f"{self.host}/{self.endpoint_generate}", data=json.dumps(request_body), stream=True)
+            result = requests.post(f"{self._get_endpoint()}/{self.endpoint_generate}", data=json.dumps(request_body), stream=True)
             if result.status_code != 200:
                 raise RuntimeError(f"Unexpected status code: {result.status_code} - {result.text}")
 
@@ -38,7 +59,7 @@ class OlcRunner():
         request_body = self._get_generate_request_body(prompt, stream=False)
 
         try:
-            result = requests.post(f"{self.host}/{self.endpoint_generate}", data=json.dumps(request_body))
+            result = requests.post(f"{self._get_endpoint()}/{self.endpoint_generate}", data=json.dumps(request_body))
             if result.status_code != 200:
                 raise RuntimeError(f"Unexpected status code: {result.status_code} - {result.text}")
 
@@ -60,20 +81,16 @@ class OlcRunner():
             "stream": stream
         }
 
-    def _getPrompt(self) -> str:
-        if (len(sys.argv) == 1):
-            raise AttributeError("No prompt argument was given.")
-
-        return sys.argv[1]
-
     def _is_ollama_running(self) -> bool:
         try:
-            result = requests.get(f"{self.host}/")
+            result = requests.get(f"{self._get_endpoint()}/")
             return result.status_code == 200
         except Exception as ex:
             print(ex)
             return False
 
+    def _get_endpoint(self) -> str:
+        return f'http://{self.host}:{self.port}'
 
 def run():
     OlcRunner().run()
