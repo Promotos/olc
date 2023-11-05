@@ -1,2 +1,4 @@
 .venv
 ollamac/dist/*
+ollamac/ollamac/__pycache__/*
+ollamac/tests/__pycache__/*

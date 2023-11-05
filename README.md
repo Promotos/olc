@@ -1,2 +1,4 @@
 # olc
 
+## Tech stack
+todo

@@ -6,7 +6,6 @@ authors = ["Promotos <promotos@gmx.de>"]
 readme = "README.md"
 license = "Apache-2.0"
 keywords = ["ollama", "command line interface"]
-requires-python = ">=3.10"
 
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -16,6 +15,9 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.3"
 
 [project.urls]
 "Homepage" = "https://github.com/Promotos/olc"
